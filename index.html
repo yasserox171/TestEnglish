@@ -1235,6 +1235,12 @@ button{font:inherit;color:inherit}
     setLang(savedLang || CONFIG.defaultLang, true);
     refreshStartBtn();
 
+    // Un résultat peut être resté en attente : réseau coupé au moment de
+    // l'envoi, ou URL d'envoi renseignée après coup. Sans cette relance, il
+    // dormait dans le navigateur du candidat et n'atteignait jamais la feuille.
+    var pending = recall(CONFIG.keys.queue);
+    if (pending && pending.length) flushQueue();
+
     var saved = recall(CONFIG.keys.session);
     if (!saved || !saved.startedAt) { show("welcome"); return; }
 
