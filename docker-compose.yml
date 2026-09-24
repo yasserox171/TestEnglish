@@ -1,0 +1,21 @@
+# نشر موقع اختبار تحديد المستوى على test-english.centrefocus.ma
+#
+# الحاوية لا تُنشر على الإنترنت مباشرة: المنفذان 80/443 يملكهما
+# formationfocus-nginx الذي يخدم بقية مواقع الخادم. لذلك تستمع هذه
+# الحاوية على 172.17.0.1 (بوابة جسر Docker) وهو عنوان خاص لا يُبلَغ من
+# الخارج، ويمرّر إليه الـ proxy الرئيسي عبر:
+#   /home/ubuntu/formationFocus/docker/nginx/conf.d/test-english.conf
+#
+# نفس النمط المتّبع مع todolist و 9ri3a على هذا الخادم.
+
+services:
+  web:
+    image: nginx:1.27-alpine
+    container_name: test-english-nginx
+    restart: unless-stopped
+    ports:
+      - '172.17.0.1:8095:80'
+    volumes:
+      # الصفحة مركّبة من المستودع مباشرة: git pull ثم تحديث فوري بلا إعادة بناء.
+      - ./index.html:/usr/share/nginx/html/index.html:ro
+      - ./docker/nginx.conf:/etc/nginx/conf.d/default.conf:ro
