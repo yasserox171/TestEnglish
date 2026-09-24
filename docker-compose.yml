@@ -16,6 +16,7 @@ services:
     ports:
       - '172.17.0.1:8095:80'
     volumes:
-      # الصفحة مركّبة من المستودع مباشرة: git pull ثم تحديث فوري بلا إعادة بناء.
-      - ./index.html:/usr/share/nginx/html/index.html:ro
+      # المستودع مركّب كمجلد (لا كملف مفرد) حتى يلتقط nginx أي git pull
+      # فوراً؛ إعداد nginx يمنع تقديم أي شيء منه عدا index.html.
+      - .:/site:ro
       - ./docker/nginx.conf:/etc/nginx/conf.d/default.conf:ro
