@@ -1,0 +1,1301 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1E40AF">
+<title>English Learning Test</title>
+<meta name="description" content="اختبار تحديد مستوى في اللغة الإنجليزية: 10 أسئلة في 12 دقيقة مع نتيجة فورية.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800&family=Tajawal:wght@400;500;700&display=swap">
+<style>
+/* ===================================================================
+   English Learning Test — ملف واحد مكتفٍ بذاته
+   التخصيص السريع: ابحث عن  CONFIG  في أسفل الملف لضبط رابط الـ API
+   ومدة الاختبار. الأسئلة في المصفوفة QUESTIONS.
+   =================================================================== */
+
+/* --- 1. الرموز اللونية (Design tokens) — الوضع الفاتح --------------- */
+:root{
+  --brand:            #1E40AF;
+  --brand-bright:     #2D5BD6;
+  --brand-ink:        #1B3A9E;
+  --brand-soft:       #E9EFFD;
+  --brand-ring:       rgba(30,64,175,.16);
+
+  --accent:           #0E9F6E;
+  --accent-soft:      #E1F5EC;
+
+  --warn-fg:          #92400E;
+  --warn-bg:          #FDF0D5;
+  --danger:           #DC2626;
+  --danger-soft:      #FCE9E9;
+  --danger-ring:      rgba(220,38,38,.15);
+  --whatsapp:         #1FAF57;
+
+  --ground:           #F1F5FB;
+  --ground-2:         #E3EAF6;
+  --surface:          #FFFFFF;
+  --surface-2:        #F7F9FD;
+  --line:             #DCE4F2;
+  --line-strong:      #BFCDE6;
+
+  --text:             #101A2E;
+  --text-soft:        #3C4C68;
+  --text-muted:       #64748B;
+
+  --shadow-sm: 0 1px 2px rgba(16,26,46,.05), 0 3px 10px rgba(16,26,46,.045);
+  --shadow-md: 0 2px 6px rgba(16,26,46,.05), 0 18px 40px -22px rgba(16,26,46,.35);
+  --shadow-brand: 0 10px 26px -14px rgba(30,64,175,.85);
+
+  --r-lg: 20px;
+  --r-md: 14px;
+  --r-sm: 10px;
+
+  --font-display: "Cairo", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-body: "Tajawal", "Segoe UI", system-ui, -apple-system, sans-serif;
+
+  --ease: cubic-bezier(.22,.8,.26,1);
+}
+
+/* --- 2. الوضع الليلي: نفس الرموز بقيم أخرى ------------------------- */
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --brand:          #7C9BFA;
+    --brand-bright:   #5C7EF0;
+    --brand-ink:      #8FA9FB;
+    --brand-soft:     #1C2946;
+    --brand-ring:     rgba(124,155,250,.22);
+
+    --accent:         #34D399;
+    --accent-soft:    #123329;
+
+    --warn-fg:        #FBBF24;
+    --warn-bg:        #3A2C10;
+    --danger:         #F87171;
+    --danger-soft:    #3A1A1A;
+    --danger-ring:    rgba(248,113,113,.2);
+    --whatsapp:       #25C362;
+
+    --ground:         #080E1B;
+    --ground-2:       #14203A;
+    --surface:        #101A2D;
+    --surface-2:      #16223A;
+    --line:           #253352;
+    --line-strong:    #3A4C72;
+
+    --text:           #E9EEFA;
+    --text-soft:      #BAC7DF;
+    --text-muted:     #8C9CBA;
+
+    --shadow-sm: 0 1px 2px rgba(0,0,0,.4);
+    --shadow-md: 0 2px 6px rgba(0,0,0,.35), 0 20px 44px -24px rgba(0,0,0,.9);
+    --shadow-brand: 0 10px 26px -14px rgba(0,0,0,.9);
+  }
+}
+:root[data-theme="dark"]{
+  --brand:          #7C9BFA;
+  --brand-bright:   #5C7EF0;
+  --brand-ink:      #8FA9FB;
+  --brand-soft:     #1C2946;
+  --brand-ring:     rgba(124,155,250,.22);
+
+  --accent:         #34D399;
+  --accent-soft:    #123329;
+
+  --warn-fg:        #FBBF24;
+  --warn-bg:        #3A2C10;
+  --danger:         #F87171;
+  --danger-soft:    #3A1A1A;
+  --danger-ring:    rgba(248,113,113,.2);
+  --whatsapp:       #25C362;
+
+  --ground:         #080E1B;
+  --ground-2:       #14203A;
+  --surface:        #101A2D;
+  --surface-2:      #16223A;
+  --line:           #253352;
+  --line-strong:    #3A4C72;
+
+  --text:           #E9EEFA;
+  --text-soft:      #BAC7DF;
+  --text-muted:     #8C9CBA;
+
+  --shadow-sm: 0 1px 2px rgba(0,0,0,.4);
+  --shadow-md: 0 2px 6px rgba(0,0,0,.35), 0 20px 44px -24px rgba(0,0,0,.9);
+  --shadow-brand: 0 10px 26px -14px rgba(0,0,0,.9);
+}
+
+/* --- 3. الأساسيات -------------------------------------------------- */
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  min-height:100%;
+  direction:rtl;
+  font-family:var(--font-body);
+  font-size:16px;
+  line-height:1.65;
+  color:var(--text);
+  background-color:var(--ground);
+  background-image:
+    radial-gradient(900px 520px at 50% -180px, var(--ground-2), transparent 70%);
+  background-repeat:no-repeat;
+  -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%}
+[hidden]{display:none !important}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--brand);outline-offset:2px;border-radius:6px}
+
+.app{
+  width:100%;
+  max-width:600px;
+  margin-inline:auto;
+  padding-inline:16px;
+  padding-block:26px 44px;
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+}
+
+/* --- 4. الترويسة --------------------------------------------------- */
+.brand{display:flex;align-items:center;gap:12px}
+.brand__mark{
+  flex:none;width:46px;height:46px;border-radius:14px;
+  background:linear-gradient(145deg,var(--brand-bright),var(--brand));
+  display:grid;place-items:center;color:#fff;box-shadow:var(--shadow-brand);
+}
+.brand__mark svg{width:24px;height:24px;display:block}
+.brand__name{
+  font-family:var(--font-display);font-weight:800;font-size:1.22rem;
+  line-height:1.25;letter-spacing:-.015em;margin:0;
+}
+.brand__tag{margin:1px 0 0;font-size:.8rem;color:var(--text-muted);line-height:1.4}
+
+/* --- 5. البطاقة ---------------------------------------------------- */
+.card{
+  position:relative;
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:var(--r-lg);
+  box-shadow:var(--shadow-md);
+  padding:26px 24px;
+  overflow:hidden;
+}
+@media (max-width:430px){
+  .card{padding:20px 17px;border-radius:17px}
+  .app{padding-block:20px 34px}
+}
+
+/* --- 6. النصوص ----------------------------------------------------- */
+.h1{
+  font-family:var(--font-display);font-weight:800;font-size:1.62rem;
+  line-height:1.32;margin:0 0 8px;letter-spacing:-.02em;text-wrap:balance;
+}
+.h2{font-family:var(--font-display);font-weight:700;font-size:1.06rem;margin:0 0 10px}
+.lead{margin:0;color:var(--text-soft);font-size:.97rem}
+.eyebrow{
+  font-size:.72rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--brand-ink);margin:0 0 10px;
+}
+
+/* --- 7. شريط المزايا ----------------------------------------------- */
+.facts{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:8px;
+  margin:20px 0 22px;padding:14px 10px;
+  background:var(--surface-2);border:1px solid var(--line);border-radius:var(--r-md);
+}
+.fact{text-align:center;display:flex;flex-direction:column;gap:2px;min-width:0}
+.fact__num{
+  font-family:var(--font-display);font-weight:800;font-size:1.18rem;
+  color:var(--brand-ink);line-height:1.2;font-variant-numeric:tabular-nums;
+}
+.fact__label{font-size:.76rem;color:var(--text-muted);line-height:1.35}
+
+/* --- 8. الحقول ----------------------------------------------------- */
+.form{display:flex;flex-direction:column;gap:16px}
+.field{display:flex;flex-direction:column;gap:7px}
+.label{font-weight:700;font-size:.9rem;color:var(--text-soft)}
+.label span{font-weight:400;color:var(--text-muted);font-size:.82rem}
+.input{
+  height:52px;width:100%;
+  border:1.5px solid var(--line);border-radius:var(--r-md);
+  background:var(--surface-2);color:var(--text);
+  padding-inline:15px;font:inherit;font-size:1rem;
+  transition:border-color .16s var(--ease), box-shadow .16s var(--ease), background .16s var(--ease);
+}
+.input::placeholder{color:var(--text-muted);opacity:.75}
+.input:focus{
+  outline:none;border-color:var(--brand);background:var(--surface);
+  box-shadow:0 0 0 4px var(--brand-ring);
+}
+.input--tel{direction:ltr;text-align:right;font-variant-numeric:tabular-nums;letter-spacing:.02em}
+.input.is-invalid{border-color:var(--danger)}
+.input.is-invalid:focus{box-shadow:0 0 0 4px var(--danger-ring)}
+.error{
+  color:var(--danger);font-size:.82rem;font-weight:500;line-height:1.4;
+  min-height:1.15em;transition:opacity .16s var(--ease);
+}
+
+/* --- 9. الأزرار ---------------------------------------------------- */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  min-height:54px;padding:0 20px;width:100%;
+  border:1.5px solid transparent;border-radius:var(--r-md);
+  font-family:var(--font-display);font-weight:700;font-size:1rem;
+  cursor:pointer;text-decoration:none;
+  transition:transform .14s var(--ease), box-shadow .18s var(--ease),
+             background .18s var(--ease), border-color .18s var(--ease), opacity .18s;
+}
+.btn svg{width:19px;height:19px;flex:none}
+.btn:active{transform:translateY(1px)}
+.btn--primary{
+  background:linear-gradient(135deg,var(--brand-bright),var(--brand));
+  color:#fff;box-shadow:var(--shadow-brand);
+}
+.btn--primary:hover:not(:disabled){box-shadow:0 14px 30px -14px rgba(30,64,175,.95)}
+.btn--ghost{background:var(--surface);border-color:var(--line-strong);color:var(--text-soft)}
+.btn--ghost:hover{border-color:var(--brand);color:var(--brand-ink);background:var(--surface-2)}
+.btn--wa{background:var(--whatsapp);color:#fff;box-shadow:0 10px 24px -14px rgba(31,175,87,.9)}
+.btn:disabled{opacity:.45;cursor:not-allowed;box-shadow:none;transform:none}
+.btn-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media (max-width:400px){.btn-row{grid-template-columns:1fr}}
+
+.note{
+  display:flex;gap:9px;align-items:flex-start;
+  margin-top:14px;font-size:.81rem;color:var(--text-muted);line-height:1.5;
+}
+.note svg{width:15px;height:15px;flex:none;margin-top:3px;color:var(--brand)}
+
+/* --- 10. شريط حالة الاختبار ---------------------------------------- */
+.meta{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+.counter{font-family:var(--font-display);font-weight:700;font-size:.95rem;color:var(--text-soft)}
+.counter b{color:var(--brand-ink);font-size:1.12rem;font-variant-numeric:tabular-nums}
+.timer{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:8px 14px;border-radius:999px;
+  background:var(--brand-soft);color:var(--brand-ink);
+  font-family:var(--font-display);font-weight:700;font-size:.95rem;
+  transition:background .4s var(--ease), color .4s var(--ease);
+}
+.timer svg{width:16px;height:16px}
+.timer__value{direction:ltr;font-variant-numeric:tabular-nums;letter-spacing:.04em;min-width:3.6ch;text-align:center}
+.timer.is-warn{background:var(--warn-bg);color:var(--warn-fg)}
+.timer.is-danger{background:var(--danger-soft);color:var(--danger);animation:pulse 1.1s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
+
+/* شريط الوقت الرفيع أعلى بطاقة الاختبار */
+.timebar{position:absolute;inset-block-start:0;inset-inline:0;height:3px;background:var(--ground-2)}
+.timebar__fill{
+  height:100%;width:100%;
+  background:linear-gradient(90deg,var(--accent),var(--brand));
+  transition:width .22s linear, background .4s var(--ease);
+}
+.timebar__fill.is-danger{background:var(--danger)}
+
+/* --- 11. شريط التقدم ----------------------------------------------- */
+.progress{height:8px;background:var(--ground-2);border-radius:999px;overflow:hidden;margin-bottom:22px}
+.progress__bar{
+  height:100%;width:10%;border-radius:999px;
+  background:linear-gradient(90deg,var(--brand),var(--accent));
+  transition:width .55s var(--ease);
+}
+
+/* --- 12. السؤال والخيارات ------------------------------------------ */
+.quiz-body{animation:enter .42s var(--ease) both}
+@keyframes enter{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+
+.qtext{
+  direction:ltr;text-align:left;
+  font-family:var(--font-display);font-weight:700;font-size:1.22rem;line-height:1.55;
+  margin:0 0 6px;text-wrap:balance;
+}
+.qhint{margin:0 0 18px;font-size:.84rem;color:var(--text-muted)}
+
+.options{display:flex;flex-direction:column;gap:10px;direction:ltr}
+.option{
+  display:flex;align-items:center;gap:12px;width:100%;
+  padding:13px 14px;text-align:left;
+  background:var(--surface-2);border:1.5px solid var(--line);
+  border-radius:var(--r-md);cursor:pointer;
+  transition:border-color .18s var(--ease), background .18s var(--ease),
+             box-shadow .18s var(--ease), transform .14s var(--ease);
+}
+.option:hover{border-color:var(--line-strong);transform:translateY(-1px)}
+.option__key{
+  flex:none;width:31px;height:31px;border-radius:9px;
+  display:grid;place-items:center;
+  background:var(--surface);border:1.5px solid var(--line);
+  font-family:var(--font-display);font-weight:700;font-size:.87rem;color:var(--text-muted);
+  transition:background .18s var(--ease), color .18s var(--ease), border-color .18s var(--ease);
+}
+.option__text{flex:1;min-width:0;font-size:1rem;font-weight:500;line-height:1.5;word-break:break-word}
+.option.is-selected{
+  border-color:var(--brand);background:var(--brand-soft);
+  box-shadow:0 0 0 3px var(--brand-ring);
+}
+.option.is-selected .option__key{background:var(--brand);border-color:var(--brand);color:#fff}
+.option.is-selected .option__text{color:var(--brand-ink);font-weight:700}
+
+.quiz-nav{display:flex;gap:10px;margin-top:22px}
+.quiz-nav .btn--primary{flex:1}
+.quiz-nav .btn--ghost{width:auto;flex:none;padding-inline:18px;min-height:54px}
+
+/* --- 13. النتيجة ---------------------------------------------------- */
+.result-head{text-align:center;padding-bottom:4px}
+.ring{position:relative;width:172px;height:172px;margin:6px auto 16px}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring__track{fill:none;stroke:var(--ground-2);stroke-width:13}
+/* تُضبط ألوان التدرج من CSS لأن خصائص SVG لا تقرأ المتغيرات */
+#ringGrad .stop-a{stop-color:var(--brand)}
+#ringGrad .stop-b{stop-color:var(--accent)}
+.ring__value{
+  fill:none;stroke:url(#ringGrad);stroke-width:13;stroke-linecap:round;
+  stroke-dasharray:439.8;stroke-dashoffset:439.8;
+  transition:stroke-dashoffset 1.15s var(--ease);
+}
+.ring__inner{
+  position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:0;
+}
+.ring__score{
+  font-family:var(--font-display);font-weight:800;font-size:2.7rem;line-height:1;
+  letter-spacing:-.03em;font-variant-numeric:tabular-nums;direction:ltr;
+}
+.ring__of{font-size:.82rem;color:var(--text-muted);margin-top:6px;font-weight:500}
+
+.level{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:6px 14px;border-radius:999px;
+  background:var(--accent-soft);color:var(--accent);
+  font-family:var(--font-display);font-weight:700;font-size:.85rem;
+  margin-bottom:12px;
+}
+.level__dot{width:7px;height:7px;border-radius:50%;background:currentColor;flex:none}
+.level__en{direction:ltr}
+.praise{margin:0 auto;max-width:44ch;color:var(--text-soft);font-size:1rem;line-height:1.7}
+
+.receipt{
+  margin:22px 0 18px;padding:4px 16px;
+  background:var(--surface-2);border:1px solid var(--line);border-radius:var(--r-md);
+}
+.row{
+  display:flex;align-items:center;justify-content:space-between;gap:14px;
+  padding:11px 0;border-bottom:1px solid var(--line);
+}
+.receipt .row:last-child{border-bottom:0}
+.row__k{font-size:.87rem;color:var(--text-muted);flex:none}
+.row__v{font-weight:700;font-size:.95rem;text-align:end;min-width:0;word-break:break-word}
+.row__v.ltr{direction:ltr;font-variant-numeric:tabular-nums}
+
+.sync{
+  display:flex;align-items:center;gap:8px;justify-content:center;
+  font-size:.79rem;color:var(--text-muted);margin:0 0 18px;
+}
+.sync__dot{width:7px;height:7px;border-radius:50%;background:var(--text-muted);flex:none}
+.sync.is-ok .sync__dot{background:var(--accent)}
+.sync.is-pending .sync__dot{background:var(--warn-fg)}
+
+/* --- 14. مراجعة الإجابات ------------------------------------------- */
+.review{margin-top:18px;border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden}
+.review summary{
+  cursor:pointer;padding:14px 16px;list-style:none;
+  font-family:var(--font-display);font-weight:700;font-size:.95rem;
+  background:var(--surface-2);display:flex;align-items:center;justify-content:space-between;gap:10px;
+}
+.review summary::-webkit-details-marker{display:none}
+.review summary::after{content:"＋";color:var(--text-muted);font-weight:400}
+.review[open] summary::after{content:"－"}
+.review__list{display:flex;flex-direction:column;gap:0;padding:0}
+.rev{padding:15px 16px;border-top:1px solid var(--line)}
+.rev__q{direction:ltr;text-align:left;font-weight:700;font-size:.95rem;margin:0 0 9px;line-height:1.5}
+.rev__q b{
+  display:inline-block;min-width:1.5em;color:var(--text-muted);font-weight:700;
+}
+.rev__line{display:flex;align-items:flex-start;gap:8px;font-size:.87rem;margin-top:5px;line-height:1.5}
+.rev__badge{
+  flex:none;width:18px;height:18px;border-radius:50%;display:grid;place-items:center;
+  font-size:.7rem;font-weight:700;color:#fff;margin-top:3px;
+}
+.rev__badge.ok{background:var(--accent)}
+.rev__badge.no{background:var(--danger)}
+.rev__ans{direction:ltr;font-weight:600}
+.rev__why{margin:8px 0 0;font-size:.82rem;color:var(--text-muted);line-height:1.6}
+
+/* --- 15. تذييل ------------------------------------------------------ */
+.foot{text-align:center;font-size:.78rem;color:var(--text-muted);margin:0}
+
+/* --- 16. احترام تقليل الحركة --------------------------------------- */
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{
+    animation-duration:.01ms !important;animation-iteration-count:1 !important;
+    transition-duration:.01ms !important;scroll-behavior:auto !important;
+  }
+}
+
+/* --- 17. الطباعة / حفظ PDF ----------------------------------------- */
+@media print{
+  /* المحدِّد مكتوب بهذه الصيغة ليتغلّب على قواعد الوضع الليلي عند الطباعة */
+  :root:not([data-theme="none"]){
+    --ground:#fff;--ground-2:#e6e6e6;--surface:#fff;--surface-2:#fafafa;
+    --line:#cfcfcf;--text:#000;--text-soft:#222;--text-muted:#555;
+    --brand:#1E40AF;--brand-ink:#1E40AF;--brand-soft:#eef2fd;
+    --accent:#0E7C57;--accent-soft:#eaf6f1;
+  }
+  body{
+    background:#fff !important;
+    -webkit-print-color-adjust:exact;print-color-adjust:exact;
+  }
+  .app{max-width:none;padding:0}
+  .no-print{display:none !important}
+  .card{box-shadow:none;border:1px solid #ccc;page-break-inside:avoid}
+  .review{page-break-inside:avoid}
+  .review summary{display:none}
+  .rev:first-child{border-top:0}
+  a{text-decoration:none;color:inherit}
+}
+</style>
+</head>
+<body>
+
+<div class="app" dir="rtl">
+
+  <!-- ====================== الترويسة ====================== -->
+  <header class="brand">
+    <div class="brand__mark" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 6.5C10.6 5.2 8.6 4.5 6 4.5H3.5v13H6c2.6 0 4.6.7 6 2"></path>
+        <path d="M12 6.5c1.4-1.3 3.4-2 6-2h2.5v13H18c-2.6 0-4.6.7-6 2"></path>
+        <path d="M12 6.5v15"></path>
+      </svg>
+    </div>
+    <div>
+      <p class="brand__name">English Learning Test</p>
+      <p class="brand__tag">اختبار تحديد المستوى في اللغة الإنجليزية</p>
+    </div>
+  </header>
+
+  <!-- ====================== 1. شاشة البيانات ====================== -->
+  <main id="screen-welcome" class="card">
+    <p class="eyebrow">أهلاً بك</p>
+    <h1 class="h1">جاهز لمعرفة مستواك الحقيقي؟</h1>
+    <p class="lead">
+      عشرة أسئلة مختارة في القواعد والمفردات تكشف مستواك خلال دقائق.
+      أدخل بياناتك لنحفظ نتيجتك باسمك، ثم ابدأ فوراً.
+    </p>
+
+    <div class="facts">
+      <div class="fact">
+        <span class="fact__num">10</span>
+        <span class="fact__label">أسئلة اختيار من متعدد</span>
+      </div>
+      <div class="fact">
+        <span class="fact__num" id="factMinutes">12</span>
+        <span class="fact__label">دقيقة للاختبار</span>
+      </div>
+      <div class="fact">
+        <span class="fact__num">A1–B1</span>
+        <span class="fact__label">نطاق تحديد المستوى</span>
+      </div>
+    </div>
+
+    <form class="form" id="infoForm" novalidate>
+      <div class="field">
+        <label class="label" for="fullName">الاسم الكامل</label>
+        <input class="input" id="fullName" name="fullName" type="text"
+               autocomplete="name" placeholder="مثال: محمد أحمد العلي"
+               maxlength="60" spellcheck="false">
+        <p class="error" id="nameError" role="alert"></p>
+      </div>
+
+      <div class="field">
+        <label class="label" for="phone">رقم الهاتف <span>— لإرسال النتيجة</span></label>
+        <input class="input input--tel" id="phone" name="phone" type="tel"
+               inputmode="tel" autocomplete="tel" placeholder="05XXXXXXXX"
+               maxlength="20">
+        <p class="error" id="phoneError" role="alert"></p>
+      </div>
+
+      <button class="btn btn--primary" id="startBtn" type="submit" disabled>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M5 12h13"></path><path d="M12 5l7 7-7 7"></path>
+        </svg>
+        ابدأ الاختبار
+      </button>
+    </form>
+
+    <p class="note">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="9"></circle><path d="M12 11v5"></path><path d="M12 7.6v.4"></path>
+      </svg>
+      يبدأ العدّ التنازلي فور الضغط على «ابدأ الاختبار». إذا انتهى الوقت تُرسل إجاباتك تلقائياً.
+    </p>
+  </main>
+
+  <!-- ====================== 2. شاشة الاختبار ====================== -->
+  <main id="screen-quiz" class="card" hidden>
+    <div class="timebar" aria-hidden="true"><div class="timebar__fill" id="timeBar"></div></div>
+
+    <div class="meta">
+      <p class="counter" id="counter" aria-live="polite">
+        السؤال <b id="counterNow">1</b> من <span id="counterTotal">10</span>
+      </p>
+      <div class="timer" id="timer" role="timer" aria-label="الوقت المتبقي">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="8.5"></circle><path d="M12 7.6V12l2.8 1.7"></path>
+        </svg>
+        <span class="timer__value" id="timerValue">12:00</span>
+      </div>
+    </div>
+
+    <div class="progress" role="progressbar" aria-valuemin="1" aria-valuemax="10" aria-valuenow="1" id="progress">
+      <div class="progress__bar" id="progressBar"></div>
+    </div>
+
+    <div class="quiz-body" id="quizBody">
+      <h2 class="qtext" id="questionText">&nbsp;</h2>
+      <p class="qhint" id="questionHint">&nbsp;</p>
+      <div class="options" id="options" role="radiogroup" aria-labelledby="questionText"></div>
+    </div>
+
+    <div class="quiz-nav">
+      <button class="btn btn--ghost" id="prevBtn" type="button" hidden>السابق</button>
+      <button class="btn btn--primary" id="nextBtn" type="button" disabled>
+        <span id="nextLabel">السؤال التالي</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M19 12H6"></path><path d="M12 5l-7 7 7 7"></path>
+        </svg>
+      </button>
+    </div>
+  </main>
+
+  <!-- ====================== 3. شاشة النتيجة ====================== -->
+  <main id="screen-result" class="card" hidden>
+    <div class="result-head">
+      <p class="eyebrow" id="resultEyebrow">نتيجتك</p>
+
+      <div class="ring">
+        <svg viewBox="0 0 160 160" aria-hidden="true">
+          <defs>
+            <linearGradient id="ringGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop class="stop-a" offset="0%"></stop>
+              <stop class="stop-b" offset="100%"></stop>
+            </linearGradient>
+          </defs>
+          <circle class="ring__track" cx="80" cy="80" r="70"></circle>
+          <circle class="ring__value" id="ringValue" cx="80" cy="80" r="70"></circle>
+        </svg>
+        <div class="ring__inner">
+          <span class="ring__score" id="scoreText">0/10</span>
+          <span class="ring__of" id="percentText">0%</span>
+        </div>
+      </div>
+
+      <p class="level"><span class="level__dot"></span><span id="levelText" class="level__en">Beginner</span></p>
+      <p class="praise" id="praiseText"></p>
+    </div>
+
+    <div class="receipt">
+      <div class="row"><span class="row__k">الاسم</span><span class="row__v" id="outName">—</span></div>
+      <div class="row"><span class="row__k">رقم الهاتف</span><span class="row__v ltr" id="outPhone">—</span></div>
+      <div class="row"><span class="row__k">الدرجة</span><span class="row__v ltr" id="outScore">—</span></div>
+      <div class="row"><span class="row__k">الوقت المستغرق</span><span class="row__v ltr" id="outTime">—</span></div>
+      <div class="row"><span class="row__k">تاريخ الاختبار</span><span class="row__v" id="outDate">—</span></div>
+    </div>
+
+    <p class="sync" id="syncStatus"><span class="sync__dot"></span><span id="syncText">جارٍ الحفظ…</span></p>
+
+    <div class="btn-row no-print">
+      <button class="btn btn--ghost" id="pdfBtn" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 3v11"></path><path d="M8 10.5l4 4 4-4"></path><path d="M4.5 19.5h15"></path>
+        </svg>
+        تحميل PDF
+      </button>
+      <button class="btn btn--wa" id="shareBtn" type="button">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M12.04 2.5c-5.24 0-9.5 4.26-9.5 9.5 0 1.67.44 3.3 1.28 4.74L2.5 21.5l4.9-1.28a9.46 9.46 0 0 0 4.64 1.2h.01c5.24 0 9.5-4.26 9.5-9.5s-4.27-9.42-9.51-9.42Zm0 17.05h-.01a7.9 7.9 0 0 1-4.02-1.1l-.29-.17-2.9.76.77-2.83-.19-.29a7.88 7.88 0 0 1-1.21-4.2c0-4.36 3.55-7.9 7.9-7.9 2.11 0 4.09.82 5.58 2.31a7.84 7.84 0 0 1 2.31 5.59c0 4.36-3.55 7.83-7.94 7.83Zm4.35-5.87c-.24-.12-1.41-.7-1.63-.78-.22-.08-.38-.12-.54.12s-.62.78-.76.94c-.14.16-.28.18-.52.06a6.46 6.46 0 0 1-1.91-1.18 7.2 7.2 0 0 1-1.32-1.65c-.14-.24-.02-.37.1-.49.11-.11.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.54-1.3-.74-1.78-.19-.47-.39-.4-.54-.41h-.46c-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2s.86 2.32.98 2.48c.12.16 1.7 2.6 4.12 3.64.58.25 1.03.4 1.38.51.58.19 1.11.16 1.52.1.47-.07 1.41-.58 1.61-1.13.2-.55.2-1.03.14-1.13-.06-.1-.22-.16-.46-.28Z"></path>
+        </svg>
+        شارك نتيجتك
+      </button>
+    </div>
+
+    <details class="review no-print" id="review">
+      <summary>مراجعة الإجابات</summary>
+      <div class="review__list" id="reviewList"></div>
+    </details>
+
+    <div style="margin-top:14px" class="no-print">
+      <button class="btn btn--ghost" id="retryBtn" type="button">إعادة الاختبار من البداية</button>
+    </div>
+  </main>
+
+  <p class="foot no-print">English Learning Test — نتائجك محفوظة على جهازك.</p>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  /* =================================================================
+     الإعدادات — عدّل هنا فقط
+     ================================================================= */
+  var CONFIG = {
+    // ضع رابط الـ API هنا لاستقبال النتائج (POST + JSON). اتركه فارغاً للحفظ محلياً فقط.
+    apiEndpoint: "",
+    durationMinutes: 12,
+    shareUrl: location.href.split("#")[0],
+    requestTimeoutMs: 10000,
+    keys: {
+      session: "elt:session:v1",
+      queue:   "elt:queue:v1",
+      archive: "elt:results:v1"
+    }
+  };
+
+  /* =================================================================
+     بنك الأسئلة — 10 أسئلة (مبتدئ إلى متوسط)
+     answer = فهرس الإجابة الصحيحة داخل options
+     ================================================================= */
+  var QUESTIONS = [
+    {
+      q: "She ______ coffee every morning.",
+      hint: "Present Simple — المضارع البسيط",
+      options: ["drink", "drinks", "drinking", "is drink"],
+      answer: 1,
+      why: "مع الضمائر he / she / it في المضارع البسيط نضيف s إلى الفعل."
+    },
+    {
+      q: "I have lived in this city ______ five years.",
+      hint: "since / for — الفرق بينهما",
+      options: ["since", "for", "ago", "during"],
+      answer: 1,
+      why: "نستخدم for مع المدة الزمنية (five years)، و since مع نقطة بداية محددة (2019)."
+    },
+    {
+      q: "What is the plural of “child”?",
+      hint: "Irregular plurals — الجمع الشاذ",
+      options: ["childs", "childes", "children", "childrens"],
+      answer: 2,
+      why: "كلمة child من الجموع الشاذة، وجمعها children بدون إضافة s."
+    },
+    {
+      q: "My brother is ______ than me.",
+      hint: "Comparatives — المقارنة",
+      options: ["tall", "taller", "tallest", "the most tall"],
+      answer: 1,
+      why: "في المقارنة بين اثنين نستخدم صيغة المقارنة taller متبوعة بـ than."
+    },
+    {
+      q: "Choose the opposite of “expensive”.",
+      hint: "Vocabulary — المفردات",
+      options: ["cheap", "modern", "heavy", "useful"],
+      answer: 0,
+      why: "expensive تعني غالي الثمن، وعكسها cheap أي رخيص."
+    },
+    {
+      q: "They ______ TV when the phone rang.",
+      hint: "Past Continuous — الماضي المستمر",
+      options: ["watch", "watches", "were watching", "have watched"],
+      answer: 2,
+      why: "الفعل المستمر في الماضي انقطع بحدث مفاجئ، فنستخدم was/were + ing."
+    },
+    {
+      q: "If it ______ tomorrow, we will stay at home.",
+      hint: "First Conditional — الشرط الأول",
+      options: ["rain", "rains", "will rain", "rained"],
+      answer: 1,
+      why: "في الشرط الأول: If + مضارع بسيط، ثم will + مصدر. ولا نستخدم will بعد if."
+    },
+    {
+      q: "I'm really interested ______ learning English.",
+      hint: "Prepositions — حروف الجر",
+      options: ["on", "in", "at", "of"],
+      answer: 1,
+      why: "التعبير الثابت هو interested in، ويأتي بعده الفعل بصيغة ing."
+    },
+    {
+      q: "What is the past form of “buy”?",
+      hint: "Irregular verbs — الأفعال الشاذة",
+      options: ["buyed", "brought", "bought", "buying"],
+      answer: 2,
+      why: "ماضي buy هو bought، أما brought فهي ماضي bring."
+    },
+    {
+      q: "There ______ many students in the classroom.",
+      hint: "There is / There are",
+      options: ["is", "are", "was", "be"],
+      answer: 1,
+      why: "students جمع، لذا نستخدم there are في المضارع."
+    }
+  ];
+
+  var TOTAL = QUESTIONS.length;
+  var DURATION_MS = CONFIG.durationMinutes * 60 * 1000;
+  var KEYS = ["A", "B", "C", "D"];
+
+  /* =================================================================
+     أدوات مساعدة
+     ================================================================= */
+  function $(id) { return document.getElementById(id); }
+
+  function store(key, value) {
+    try {
+      if (value === undefined) { localStorage.removeItem(key); return true; }
+      localStorage.setItem(key, JSON.stringify(value));
+      return true;
+    } catch (e) { return false; }
+  }
+  function recall(key) {
+    try {
+      var raw = localStorage.getItem(key);
+      return raw ? JSON.parse(raw) : null;
+    } catch (e) { return null; }
+  }
+
+  function pad(n) { return n < 10 ? "0" + n : String(n); }
+  function clock(totalSeconds) {
+    var s = Math.max(0, Math.round(totalSeconds));
+    return pad(Math.floor(s / 60)) + ":" + pad(s % 60);
+  }
+  function formatDate(ts) {
+    var d = new Date(ts);
+    try {
+      return new Intl.DateTimeFormat("ar-EG-u-nu-latn", {
+        year: "numeric", month: "long", day: "numeric",
+        hour: "2-digit", minute: "2-digit"
+      }).format(d);
+    } catch (e) {
+      return d.getFullYear() + "/" + pad(d.getMonth() + 1) + "/" + pad(d.getDate());
+    }
+  }
+  function escapeHtml(str) {
+    return String(str).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+  function replay(el) {
+    el.classList.remove("quiz-body");
+    void el.offsetWidth;          // إعادة تشغيل الأنيميشن
+    el.classList.add("quiz-body");
+  }
+
+  /* =================================================================
+     حالة الجلسة
+     ================================================================= */
+  var state = {
+    name: "", phone: "",
+    answers: new Array(TOTAL).fill(null),
+    index: 0,
+    startedAt: 0, endsAt: 0,
+    finished: false, autoSubmitted: false, submittedAt: 0
+  };
+  var ticker = null;
+  var lastShownSecond = -1;
+
+  function saveSession() { store(CONFIG.keys.session, state); }
+
+  /* =================================================================
+     التنقل بين الشاشات
+     ================================================================= */
+  var screens = {
+    welcome: $("screen-welcome"),
+    quiz: $("screen-quiz"),
+    result: $("screen-result")
+  };
+  function show(name) {
+    Object.keys(screens).forEach(function (k) { screens[k].hidden = (k !== name); });
+    var el = screens[name];
+    el.classList.remove("quiz-body");
+    void el.offsetWidth;
+    el.classList.add("quiz-body");
+    if (name !== "welcome") window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  /* =================================================================
+     1) شاشة البيانات والتحقق
+     ================================================================= */
+  var form = $("infoForm");
+  var nameInput = $("fullName");
+  var phoneInput = $("phone");
+  var nameError = $("nameError");
+  var phoneError = $("phoneError");
+  var startBtn = $("startBtn");
+
+  function digitsOf(value) { return String(value).replace(/\D/g, ""); }
+
+  function refreshStartBtn() {
+    startBtn.disabled = !(nameInput.value.trim() && phoneInput.value.trim());
+  }
+
+  function validateName(silent) {
+    var value = nameInput.value.trim().replace(/\s+/g, " ");
+    var message = "";
+    if (!value) message = "من فضلك اكتب اسمك الكامل.";
+    else if (value.length < 3) message = "الاسم قصير جداً — اكتب 3 أحرف على الأقل.";
+    else if (/\d/.test(value)) message = "الاسم لا يحتوي على أرقام.";
+    if (!silent) {
+      nameError.textContent = message;
+      nameInput.classList.toggle("is-invalid", !!message);
+    }
+    return message ? null : value;
+  }
+
+  function validatePhone(silent) {
+    var raw = phoneInput.value.trim();
+    var digits = digitsOf(raw);
+    var message = "";
+    if (!raw) message = "من فضلك اكتب رقم هاتفك.";
+    else if (!/^\+?[\d\s()-]+$/.test(raw)) message = "الرقم يحتوي على رموز غير مسموحة.";
+    else if (digits.length < 8) message = "الرقم قصير — أدخل 8 أرقام على الأقل.";
+    else if (digits.length > 15) message = "الرقم طويل — الحد الأقصى 15 رقماً.";
+    if (!silent) {
+      phoneError.textContent = message;
+      phoneInput.classList.toggle("is-invalid", !!message);
+    }
+    return message ? null : (raw.charAt(0) === "+" ? "+" + digits : digits);
+  }
+
+  nameInput.addEventListener("input", function () {
+    refreshStartBtn();
+    if (nameError.textContent) validateName(false);
+  });
+  phoneInput.addEventListener("input", function () {
+    refreshStartBtn();
+    if (phoneError.textContent) validatePhone(false);
+  });
+
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+    var name = validateName(false);
+    var phone = validatePhone(false);
+    if (!name) { nameInput.focus(); return; }
+    if (!phone) { phoneInput.focus(); return; }
+    beginTest(name, phone);
+  });
+
+  /* =================================================================
+     2) الاختبار
+     ================================================================= */
+  var counterNow = $("counterNow");
+  var progressEl = $("progress");
+  var progressBar = $("progressBar");
+  var quizBody = $("quizBody");
+  var questionText = $("questionText");
+  var questionHint = $("questionHint");
+  var optionsEl = $("options");
+  var nextBtn = $("nextBtn");
+  var nextLabel = $("nextLabel");
+  var prevBtn = $("prevBtn");
+  var timerEl = $("timer");
+  var timerValue = $("timerValue");
+  var timeBar = $("timeBar");
+
+  function beginTest(name, phone) {
+    state.name = name;
+    state.phone = phone;
+    state.answers = new Array(TOTAL).fill(null);
+    state.index = 0;
+    state.startedAt = Date.now();
+    state.endsAt = state.startedAt + DURATION_MS;
+    state.finished = false;
+    state.autoSubmitted = false;
+    state.submittedAt = 0;
+    saveSession();
+
+    show("quiz");
+    renderQuestion(false);
+    startTimer();
+  }
+
+  function renderQuestion(animate) {
+    var q = QUESTIONS[state.index];
+    var chosen = state.answers[state.index];
+
+    questionText.textContent = q.q;
+    questionHint.textContent = q.hint;
+
+    optionsEl.innerHTML = "";
+    q.options.forEach(function (label, i) {
+      var btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "option" + (chosen === i ? " is-selected" : "");
+      btn.setAttribute("role", "radio");
+      btn.setAttribute("aria-checked", chosen === i ? "true" : "false");
+      btn.dataset.index = String(i);
+      btn.innerHTML =
+        '<span class="option__key" aria-hidden="true">' + KEYS[i] + "</span>" +
+        '<span class="option__text">' + escapeHtml(label) + "</span>";
+      btn.addEventListener("click", function () { choose(i); });
+      optionsEl.appendChild(btn);
+    });
+
+    counterNow.textContent = String(state.index + 1);
+    progressEl.setAttribute("aria-valuenow", String(state.index + 1));
+    progressEl.setAttribute("aria-valuemax", String(TOTAL));
+    progressBar.style.width = ((state.index + 1) / TOTAL) * 100 + "%";
+
+    prevBtn.hidden = state.index === 0;
+    nextLabel.textContent = state.index === TOTAL - 1 ? "إنهاء وعرض النتيجة" : "السؤال التالي";
+    nextBtn.disabled = chosen === null;
+
+    if (animate !== false) replay(quizBody);
+  }
+
+  function choose(i) {
+    state.answers[state.index] = i;
+    saveSession();
+    var nodes = optionsEl.querySelectorAll(".option");
+    for (var n = 0; n < nodes.length; n++) {
+      var selected = Number(nodes[n].dataset.index) === i;
+      nodes[n].classList.toggle("is-selected", selected);
+      nodes[n].setAttribute("aria-checked", selected ? "true" : "false");
+    }
+    nextBtn.disabled = false;
+  }
+
+  nextBtn.addEventListener("click", function () {
+    if (state.answers[state.index] === null) return;
+    if (state.index === TOTAL - 1) { finish(false); return; }
+    state.index++;
+    saveSession();
+    renderQuestion(true);
+  });
+
+  prevBtn.addEventListener("click", function () {
+    if (state.index === 0) return;
+    state.index--;
+    saveSession();
+    renderQuestion(true);
+  });
+
+  // التنقل بلوحة المفاتيح داخل الخيارات
+  optionsEl.addEventListener("keydown", function (event) {
+    var nodes = Array.prototype.slice.call(optionsEl.querySelectorAll(".option"));
+    var current = nodes.indexOf(document.activeElement);
+    if (current === -1) return;
+    var step = 0;
+    if (event.key === "ArrowDown" || event.key === "ArrowLeft") step = 1;
+    else if (event.key === "ArrowUp" || event.key === "ArrowRight") step = -1;
+    else return;
+    event.preventDefault();
+    var target = nodes[(current + step + nodes.length) % nodes.length];
+    target.focus();
+  });
+
+  /* ---- المؤقّت: يعتمد على الوقت الحقيقي لا على عدّ النبضات ---- */
+  function startTimer() {
+    stopTimer();
+    lastShownSecond = -1;
+    tick();
+    ticker = setInterval(tick, 220);
+    document.addEventListener("visibilitychange", onVisible);
+  }
+  function stopTimer() {
+    if (ticker) { clearInterval(ticker); ticker = null; }
+    document.removeEventListener("visibilitychange", onVisible);
+  }
+  function onVisible() { if (!document.hidden) tick(); }
+
+  function tick() {
+    var left = Math.max(0, state.endsAt - Date.now());
+    var seconds = Math.ceil(left / 1000);
+
+    if (seconds !== lastShownSecond) {
+      lastShownSecond = seconds;
+      timerValue.textContent = clock(seconds);
+    }
+    timeBar.style.width = (left / DURATION_MS) * 100 + "%";
+
+    var danger = left <= 60000;
+    timerEl.classList.toggle("is-warn", left <= 180000 && !danger);
+    timerEl.classList.toggle("is-danger", danger);
+    timeBar.classList.toggle("is-danger", danger);
+
+    if (left <= 0) { finish(true); }
+  }
+
+  /* =================================================================
+     3) النتيجة
+     ================================================================= */
+  var LEVELS = [
+    { min: 9, en: "Intermediate (B1)", praise: "أداء ممتاز. أنت تتحكم في القواعد الأساسية بثقة، والخطوة التالية هي التوسّع في المحادثة والمفردات المتقدمة." },
+    { min: 7, en: "Pre-Intermediate (A2+)", praise: "نتيجة قوية. أساسك متين، ومع مراجعة الأزمنة وحروف الجر ستصل إلى المستوى المتوسط سريعاً." },
+    { min: 5, en: "Elementary (A2)", praise: "أنت في منتصف الطريق. راجع الأزمنة الأساسية والأفعال الشاذة، وستلاحظ قفزة واضحة في نتيجتك القادمة." },
+    { min: 3, en: "Beginner (A1+)", praise: "بداية جيدة. ركّز على المضارع البسيط والجمع والمفردات اليومية — هذه هي اللبنات الأولى." },
+    { min: 0, en: "Beginner (A1)", praise: "كل متعلّم بدأ من هنا. ابدأ بالمفردات الأساسية وبناء الجملة البسيطة، وستتقدم أسرع مما تتوقع." }
+  ];
+  function levelFor(score) {
+    for (var i = 0; i < LEVELS.length; i++) if (score >= LEVELS[i].min) return LEVELS[i];
+    return LEVELS[LEVELS.length - 1];
+  }
+
+  var lastPayload = null;
+
+  function finish(auto) {
+    if (state.finished) return;
+    state.finished = true;
+    state.autoSubmitted = !!auto;
+    state.submittedAt = Date.now();
+    stopTimer();
+
+    var score = 0;
+    var details = QUESTIONS.map(function (q, i) {
+      var chosen = state.answers[i];
+      var correct = chosen === q.answer;
+      if (correct) score++;
+      return {
+        number: i + 1,
+        question: q.q,
+        chosen: chosen === null ? null : q.options[chosen],
+        correctAnswer: q.options[q.answer],
+        isCorrect: correct
+      };
+    });
+
+    var percent = Math.round((score / TOTAL) * 100);
+    var level = levelFor(score);
+    var elapsed = Math.min(
+      Math.round((state.submittedAt - state.startedAt) / 1000),
+      CONFIG.durationMinutes * 60
+    );
+
+    lastPayload = {
+      name: state.name,
+      phone: state.phone,
+      score: score,
+      total: TOTAL,
+      percent: percent,
+      level: level.en,
+      durationSeconds: elapsed,
+      autoSubmitted: !!auto,
+      submittedAt: new Date(state.submittedAt).toISOString(),
+      answers: details
+    };
+
+    saveSession();
+    archive(lastPayload);
+    renderResult(lastPayload, level, details);
+    show("result");
+    queueForApi(lastPayload);
+  }
+
+  function archive(payload) {
+    var all = recall(CONFIG.keys.archive) || [];
+    all.push(payload);
+    if (all.length > 50) all = all.slice(-50);
+    store(CONFIG.keys.archive, all);
+  }
+
+  function renderResult(payload, level, details) {
+    $("resultEyebrow").textContent = payload.autoSubmitted ? "انتهى الوقت — تم الإرسال تلقائياً" : "نتيجتك";
+    $("scoreText").textContent = payload.score + "/" + payload.total;
+    $("percentText").textContent = payload.percent + "%";
+    $("levelText").textContent = level.en;
+    $("praiseText").textContent = level.praise;
+
+    $("outName").textContent = payload.name;
+    $("outPhone").textContent = payload.phone;
+    $("outScore").textContent = payload.score + " / " + payload.total + " (" + payload.percent + "%)";
+    $("outTime").textContent = clock(payload.durationSeconds) + " من " + clock(CONFIG.durationMinutes * 60);
+    $("outDate").textContent = formatDate(state.submittedAt);
+
+    // حلقة الدرجة — تتحرك بعد رسم الشاشة
+    var circumference = 2 * Math.PI * 70;
+    var ring = $("ringValue");
+    ring.style.strokeDashoffset = String(circumference);
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () {
+        ring.style.strokeDashoffset = String(circumference * (1 - payload.score / payload.total));
+      });
+    });
+
+    // مراجعة الإجابات
+    var list = $("reviewList");
+    list.innerHTML = "";
+    details.forEach(function (item, i) {
+      var q = QUESTIONS[i];
+      var block = document.createElement("div");
+      block.className = "rev";
+      var yours = item.chosen === null
+        ? '<span class="rev__ans" style="color:var(--text-muted)">لم تُجب</span>'
+        : '<span class="rev__ans">' + escapeHtml(item.chosen) + "</span>";
+      block.innerHTML =
+        '<p class="rev__q"><b>' + item.number + ".</b> " + escapeHtml(item.question) + "</p>" +
+        '<p class="rev__line"><span class="rev__badge ' + (item.isCorrect ? "ok" : "no") + '">' +
+          (item.isCorrect ? "✓" : "✕") + "</span>" +
+          "<span>إجابتك: " + yours + "</span></p>" +
+        (item.isCorrect ? "" :
+          '<p class="rev__line"><span class="rev__badge ok">✓</span>' +
+          '<span>الصحيحة: <span class="rev__ans">' + escapeHtml(item.correctAnswer) + "</span></span></p>") +
+        '<p class="rev__why">' + escapeHtml(q.why) + "</p>";
+      list.appendChild(block);
+    });
+  }
+
+  /* =================================================================
+     الإرسال إلى الـ API مع طابور محلي (يصمد على الإنترنت البطيء)
+     ================================================================= */
+  var syncEl = $("syncStatus");
+  var syncText = $("syncText");
+
+  function setSync(kind, message) {
+    syncEl.classList.remove("is-ok", "is-pending");
+    if (kind) syncEl.classList.add(kind);
+    syncText.textContent = message;
+  }
+
+  function queueForApi(payload) {
+    var queue = recall(CONFIG.keys.queue) || [];
+    queue.push({ id: payload.submittedAt + "-" + Math.random().toString(36).slice(2, 8), body: payload });
+    store(CONFIG.keys.queue, queue);
+    flushQueue();
+  }
+
+  function postOnce(body) {
+    var controller = typeof AbortController !== "undefined" ? new AbortController() : null;
+    var timer = controller ? setTimeout(function () { controller.abort(); }, CONFIG.requestTimeoutMs) : null;
+    return fetch(CONFIG.apiEndpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+      signal: controller ? controller.signal : undefined
+    }).then(function (response) {
+      if (timer) clearTimeout(timer);
+      if (!response.ok) throw new Error("HTTP " + response.status);
+      return true;
+    }).catch(function (error) {
+      if (timer) clearTimeout(timer);
+      throw error;
+    });
+  }
+
+  var flushing = false;
+  function flushQueue() {
+    var queue = recall(CONFIG.keys.queue) || [];
+
+    if (!CONFIG.apiEndpoint) {
+      setSync("is-ok", "تم حفظ النتيجة على هذا الجهاز (لم يُضبط رابط الإرسال بعد).");
+      return;
+    }
+    if (!queue.length) { setSync("is-ok", "تم إرسال النتيجة بنجاح."); return; }
+    if (flushing) return;
+    if (typeof navigator !== "undefined" && navigator.onLine === false) {
+      setSync("is-pending", "لا يوجد اتصال — سيتم الإرسال تلقائياً عند عودة الشبكة.");
+      return;
+    }
+
+    flushing = true;
+    setSync("is-pending", "جارٍ إرسال النتيجة…");
+
+    postOnce(queue[0].body).then(function () {
+      var rest = (recall(CONFIG.keys.queue) || []).slice(1);
+      store(CONFIG.keys.queue, rest);
+      flushing = false;
+      if (rest.length) flushQueue();
+      else setSync("is-ok", "تم إرسال النتيجة بنجاح.");
+    }).catch(function () {
+      flushing = false;
+      setSync("is-pending", "تعذّر الإرسال الآن — النتيجة محفوظة وسنعيد المحاولة تلقائياً.");
+      setTimeout(flushQueue, 15000);
+    });
+  }
+  window.addEventListener("online", flushQueue);
+
+  /* =================================================================
+     PDF / المشاركة / الإعادة
+     ================================================================= */
+  $("pdfBtn").addEventListener("click", function () {
+    var review = $("review");
+    var wasOpen = review.open;
+    review.open = true;                       // تضمين المراجعة في الملف المطبوع
+    window.print();
+    setTimeout(function () { review.open = wasOpen; }, 600);
+  });
+
+  function shareMessage() {
+    if (!lastPayload) return "";
+    return "حصلت على " + lastPayload.score + "/" + lastPayload.total +
+      " في اختبار English Learning Test — المستوى: " + lastPayload.level +
+      ".\nجرّب الاختبار بنفسك: " + CONFIG.shareUrl;
+  }
+
+  $("shareBtn").addEventListener("click", function () {
+    var text = shareMessage();
+    if (!text) return;
+    if (navigator.share) {
+      navigator.share({ title: "English Learning Test", text: text })
+        .catch(function () { openWhatsApp(text); });
+    } else {
+      openWhatsApp(text);
+    }
+  });
+  function openWhatsApp(text) {
+    window.open("https://wa.me/?text=" + encodeURIComponent(text), "_blank", "noopener");
+  }
+
+  $("retryBtn").addEventListener("click", function () {
+    store(CONFIG.keys.session, undefined);
+    state.finished = false;
+    state.answers = new Array(TOTAL).fill(null);
+    state.index = 0;
+    nameInput.value = state.name;
+    phoneInput.value = state.phone;
+    nameError.textContent = "";
+    phoneError.textContent = "";
+    nameInput.classList.remove("is-invalid");
+    phoneInput.classList.remove("is-invalid");
+    refreshStartBtn();
+    timerEl.classList.remove("is-warn", "is-danger");
+    timeBar.classList.remove("is-danger");
+    timeBar.style.width = "100%";
+    timerValue.textContent = clock(CONFIG.durationMinutes * 60);
+    show("welcome");
+  });
+
+  /* =================================================================
+     الإقلاع — استئناف جلسة غير مكتملة إن وُجدت
+     ================================================================= */
+  function boot() {
+    $("counterTotal").textContent = String(TOTAL);
+    $("factMinutes").textContent = String(CONFIG.durationMinutes);
+    timerValue.textContent = clock(CONFIG.durationMinutes * 60);
+    refreshStartBtn();
+
+    var saved = recall(CONFIG.keys.session);
+    if (!saved || !saved.startedAt) { show("welcome"); return; }
+
+    // استرجاع آمن للقيم المحفوظة
+    state.name = String(saved.name || "");
+    state.phone = String(saved.phone || "");
+    state.answers = Array.isArray(saved.answers) && saved.answers.length === TOTAL
+      ? saved.answers.map(function (a) { return (typeof a === "number" && a >= 0 && a < 4) ? a : null; })
+      : new Array(TOTAL).fill(null);
+    state.index = Math.min(Math.max(0, Number(saved.index) || 0), TOTAL - 1);
+    state.startedAt = Number(saved.startedAt) || 0;
+    state.endsAt = Number(saved.endsAt) || (state.startedAt + DURATION_MS);
+
+    nameInput.value = state.name;
+    phoneInput.value = state.phone;
+    refreshStartBtn();
+
+    if (saved.finished) { show("welcome"); return; }
+
+    if (Date.now() >= state.endsAt) {
+      // انتهى الوقت أثناء غياب المستخدم → تُحتسب الإجابات المحفوظة
+      finish(true);
+      return;
+    }
+
+    show("quiz");
+    renderQuestion(false);
+    startTimer();
+  }
+
+  boot();
+})();
+</script>
+</body>
+</html>
