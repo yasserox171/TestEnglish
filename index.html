@@ -177,7 +177,8 @@ button{font:inherit;color:inherit}
 /* --- 8. Champs ----------------------------------------------------- */
 .form{display:flex;flex-direction:column;gap:14px}
 .field{display:flex;flex-direction:column;gap:6px}
-.label{font-weight:700;font-size:.88rem;color:var(--text-soft)}
+.label{font-weight:700;font-size:.88rem;color:var(--text-soft);display:flex;gap:6px;align-items:baseline}
+.label__opt{font-weight:400;font-size:.79rem;color:var(--text-muted)}
 .input{
   height:52px;width:100%;
   border:1.5px solid var(--line);border-radius:var(--r-md);
@@ -435,20 +436,26 @@ button{font:inherit;color:inherit}
 
     <form class="form" id="infoForm" novalidate>
       <div class="field">
-        <label class="label" for="fullName" data-i18n="labelName"></label>
+        <label class="label" for="fullName">
+          <span data-i18n="labelName"></span>
+          <span class="label__opt" data-i18n="optional"></span>
+        </label>
         <input class="input" id="fullName" name="fullName" type="text"
                autocomplete="name" maxlength="60" spellcheck="false">
         <p class="error" id="nameError" role="alert"></p>
       </div>
 
       <div class="field">
-        <label class="label" for="phone" data-i18n="labelPhone"></label>
+        <label class="label" for="phone">
+          <span data-i18n="labelPhone"></span>
+          <span class="label__opt" data-i18n="optional"></span>
+        </label>
         <input class="input input--tel" id="phone" name="phone" type="tel"
                inputmode="tel" autocomplete="tel" maxlength="20">
         <p class="error" id="phoneError" role="alert"></p>
       </div>
 
-      <button class="btn btn--primary" id="startBtn" type="submit" disabled>
+      <button class="btn btn--primary" id="startBtn" type="submit">
         <span data-i18n="start"></span>
         <svg class="icon-fwd" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <path d="M5 12h13"></path><path d="M12 5l7 7-7 7"></path>
@@ -521,8 +528,8 @@ button{font:inherit;color:inherit}
     </div>
 
     <div class="receipt">
-      <div class="row"><span class="row__k" data-i18n="rowName"></span><span class="row__v" id="outName">—</span></div>
-      <div class="row"><span class="row__k" data-i18n="rowPhone"></span><span class="row__v ltr" id="outPhone">—</span></div>
+      <div class="row" id="rowName"><span class="row__k" data-i18n="rowName"></span><span class="row__v" id="outName">—</span></div>
+      <div class="row" id="rowPhone"><span class="row__k" data-i18n="rowPhone"></span><span class="row__v ltr" id="outPhone">—</span></div>
       <div class="row"><span class="row__k" data-i18n="rowScore"></span><span class="row__v ltr" id="outScore">—</span></div>
       <div class="row"><span class="row__k" data-i18n="rowTime"></span><span class="row__v ltr" id="outTime">—</span></div>
       <div class="row"><span class="row__k" data-i18n="rowDate"></span><span class="row__v" id="outDate">—</span></div>
@@ -588,6 +595,7 @@ button{font:inherit;color:inherit}
       welcomeLead: "10 questions, 12 minutes, résultat immédiat.",
       factQuestions: "questions", factMinutes: "minutes", factLevel: "niveau visé",
       labelName: "Nom complet", labelPhone: "Téléphone",
+      optional: "(facultatif)",
       phName: "Votre nom", phPhone: "06 XX XX XX XX",
       start: "Commencer le test",
       note: "Le chronomètre démarre dès le clic.",
@@ -598,8 +606,8 @@ button{font:inherit;color:inherit}
       rowTime: "Durée", rowDate: "Date",
       pdf: "PDF", share: "Partager", review: "Corrigé", retry: "Refaire le test",
       yourAnswer: "Votre réponse", correctAnswer: "Réponse correcte", noAnswer: "sans réponse",
-      errName: "Indiquez votre nom.", errNameShort: "Nom trop court.", errNameDigits: "Le nom ne contient pas de chiffres.",
-      errPhone: "Indiquez votre téléphone.", errPhoneChars: "Numéro invalide.",
+      errNameShort: "Nom trop court.", errNameDigits: "Le nom ne contient pas de chiffres.",
+      errPhoneChars: "Numéro invalide.",
       errPhoneShort: "Numéro trop court.", errPhoneLong: "Numéro trop long.",
       syncLocal: "Résultat enregistré sur cet appareil.",
       syncSending: "Envoi en cours…",
@@ -614,6 +622,7 @@ button{font:inherit;color:inherit}
       welcomeLead: "10 أسئلة، 12 دقيقة، ونتيجة فورية.",
       factQuestions: "أسئلة", factMinutes: "دقيقة", factLevel: "المستوى",
       labelName: "الاسم الكامل", labelPhone: "رقم الهاتف",
+      optional: "(اختياري)",
       phName: "اسمك", phPhone: "06 XX XX XX XX",
       start: "ابدأ الاختبار",
       note: "يبدأ العدّ التنازلي فور الضغط.",
@@ -624,8 +633,8 @@ button{font:inherit;color:inherit}
       rowTime: "المدة", rowDate: "التاريخ",
       pdf: "PDF", share: "مشاركة", review: "تصحيح الإجابات", retry: "إعادة الاختبار",
       yourAnswer: "إجابتك", correctAnswer: "الصحيحة", noAnswer: "بلا إجابة",
-      errName: "اكتب اسمك.", errNameShort: "الاسم قصير جداً.", errNameDigits: "الاسم لا يحتوي أرقاماً.",
-      errPhone: "اكتب رقم هاتفك.", errPhoneChars: "رقم غير صالح.",
+      errNameShort: "الاسم قصير جداً.", errNameDigits: "الاسم لا يحتوي أرقاماً.",
+      errPhoneChars: "رقم غير صالح.",
       errPhoneShort: "الرقم قصير.", errPhoneLong: "الرقم طويل.",
       syncLocal: "النتيجة محفوظة على هذا الجهاز.",
       syncSending: "جارٍ الإرسال…",
@@ -822,47 +831,54 @@ button{font:inherit;color:inherit}
   var langSwitch = $("langSwitch");
   var nameErrKey = "", phoneErrKey = "";
 
-  function refreshStartBtn() {
-    startBtn.disabled = !(nameInput.value.trim() && phoneInput.value.trim());
-  }
   function refreshErrors() {
     nameError.textContent = nameErrKey ? t(nameErrKey) : "";
     phoneError.textContent = phoneErrKey ? t(phoneErrKey) : "";
   }
 
+  /* Les deux champs sont facultatifs : on n'oblige personne à laisser ses
+     coordonnées pour passer le test. Un champ laissé vide est donc valide,
+     mais un champ rempli doit rester exploitable par le centre — sinon la
+     feuille se remplit de numéros inutilisables. */
+  function nameValue() { return nameInput.value.trim().replace(/\s+/g, " "); }
+
+  function phoneValue() {
+    var raw = phoneInput.value.trim();
+    var digits = raw.replace(/\D/g, "");
+    if (!digits) return "";
+    return raw.charAt(0) === "+" ? "+" + digits : digits;
+  }
+
   function validateName(show) {
-    var value = nameInput.value.trim().replace(/\s+/g, " ");
-    nameErrKey = !value ? "errName"
+    var value = nameValue();
+    nameErrKey = !value ? ""
       : value.length < 3 ? "errNameShort"
       : /\d/.test(value) ? "errNameDigits" : "";
     if (show) { refreshErrors(); nameInput.classList.toggle("is-invalid", !!nameErrKey); }
-    return nameErrKey ? null : value;
+    return !nameErrKey;
   }
 
   function validatePhone(show) {
     var raw = phoneInput.value.trim();
     var digits = raw.replace(/\D/g, "");
-    phoneErrKey = !raw ? "errPhone"
+    phoneErrKey = !raw ? ""
       : !/^\+?[\d\s()-]+$/.test(raw) ? "errPhoneChars"
       : digits.length < 8 ? "errPhoneShort"
       : digits.length > 15 ? "errPhoneLong" : "";
     if (show) { refreshErrors(); phoneInput.classList.toggle("is-invalid", !!phoneErrKey); }
-    return phoneErrKey ? null : (raw.charAt(0) === "+" ? "+" + digits : digits);
+    return !phoneErrKey;
   }
 
-  nameInput.addEventListener("input", function () {
-    refreshStartBtn(); if (nameErrKey) validateName(true);
-  });
-  phoneInput.addEventListener("input", function () {
-    refreshStartBtn(); if (phoneErrKey) validatePhone(true);
-  });
+  nameInput.addEventListener("input", function () { if (nameErrKey) validateName(true); });
+  phoneInput.addEventListener("input", function () { if (phoneErrKey) validatePhone(true); });
 
   form.addEventListener("submit", function (event) {
     event.preventDefault();
-    var name = validateName(true), phone = validatePhone(true);
-    if (!name) { nameInput.focus(); return; }
-    if (!phone) { phoneInput.focus(); return; }
-    beginTest(name, phone);
+    var okName = validateName(true);
+    var okPhone = validatePhone(true);
+    if (!okName) { nameInput.focus(); return; }
+    if (!okPhone) { phoneInput.focus(); return; }
+    beginTest(nameValue(), phoneValue());
   });
 
   langSwitch.addEventListener("click", function (event) {
@@ -1059,6 +1075,9 @@ button{font:inherit;color:inherit}
     $("levelText").textContent = level.en;
     $("praiseText").textContent = level.praise[lang] || level.praise.fr;
 
+    // Coordonnées facultatives : on masque la ligne plutôt que d'afficher un tiret.
+    $("rowName").hidden = !payload.name;
+    $("rowPhone").hidden = !payload.phone;
     $("outName").textContent = payload.name;
     $("outPhone").textContent = payload.phone;
     $("outScore").textContent = payload.score + " / " + payload.total + " (" + payload.percent + "%)";
@@ -1207,7 +1226,6 @@ button{font:inherit;color:inherit}
     refreshErrors();
     nameInput.classList.remove("is-invalid");
     phoneInput.classList.remove("is-invalid");
-    refreshStartBtn();
     timerEl.classList.remove("is-warn", "is-danger");
     timeBar.classList.remove("is-danger");
     timeBar.style.width = "100%";
@@ -1233,7 +1251,6 @@ button{font:inherit;color:inherit}
 
     var savedLang = recall(CONFIG.keys.lang);
     setLang(savedLang || CONFIG.defaultLang, true);
-    refreshStartBtn();
 
     // Un résultat peut être resté en attente : réseau coupé au moment de
     // l'envoi, ou URL d'envoi renseignée après coup. Sans cette relance, il
@@ -1256,7 +1273,6 @@ button{font:inherit;color:inherit}
 
     nameInput.value = state.name;
     phoneInput.value = state.phone;
-    refreshStartBtn();
 
     if (saved.finished) { show("welcome"); return; }
     if (Date.now() >= state.endsAt) { finish(true); return; }
